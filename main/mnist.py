@@ -23,8 +23,8 @@ with graph.as_default():
 
 with tf.Session(graph=graph) as sess:
     sess.run(init)
-    for i in range(1000):
-        batch_xs, batch_ys = data_sets.train.next_batch(100)
+    for i in range(10000):
+        batch_xs, batch_ys = data_sets.train.next_batch(1000)
         sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
