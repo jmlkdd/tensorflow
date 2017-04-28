@@ -9,8 +9,8 @@ data_sets = load_minst(path='../datasets', one_hot=True)
 
 graph = tf.Graph()
 with graph.as_default():
-    x = tf.placeholder(tf.float32, name='x')
-    y_ = tf.placeholder(tf.float32, name='y_')
+    x = tf.placeholder(tf.float32, shape=[None, 784], name='x')
+    y_ = tf.placeholder(tf.float32, shape=[None, 10], name='y_')
     W = tf.Variable(tf.zeros([784, 10]))
     b = tf.Variable(tf.zeros([10]))
 
@@ -26,6 +26,10 @@ with tf.Session(graph=graph) as sess:
     for i in range(10000):
         batch_xs, batch_ys = data_sets.train.next_batch(1000)
         sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+        if i % 200 == 0:
+            correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+            accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+            print sess.run(accuracy, feed_dict={x: data_sets.test.images, y_: data_sets.test.labels})
 
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
