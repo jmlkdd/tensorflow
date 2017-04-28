@@ -15,7 +15,7 @@ with graph.as_default():
     w = tf.Variable(tf.random_uniform([1, 2], -1.0, 1.0))       # init param
     y = tf.matmul(w, x_data) + b    # linear model
 
-    # minimize loss function
+    # minimize mean loss function
     loss = tf.reduce_mean(tf.square(y - y_data))
     optimizer = tf.train.GradientDescentOptimizer(0.5)
     train = optimizer.minimize(loss)
